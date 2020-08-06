@@ -45,7 +45,7 @@ namespace SourceGenDI
 
 		private static string BuildResolver(SourceGeneratorContext context)
 		{
-			string resolverFile = BuildResolver(new List<ContainerService>());
+			string resolverFile = BuildResolverFile(new List<ContainerService>());
 
 			if (context.SyntaxReceiver is SyntaxReceiver receiver)
 			{
@@ -56,13 +56,13 @@ namespace SourceGenDI
 				ServiceImplementationList si = GatherImplementations(compilation);
 				List<ContainerService> services = BuildOrderedTypeList(typesToResolve, si);
 
-				resolverFile = BuildResolver(services);
+				resolverFile = BuildResolverFile(services);
 			}
 
 			return resolverFile;
 		}
 
-		private static string BuildResolver(List<ContainerService> services)
+		private static string BuildResolverFile(List<ContainerService> services)
 		{
 			StringBuilder sb = new StringBuilder($@"
 using System;
