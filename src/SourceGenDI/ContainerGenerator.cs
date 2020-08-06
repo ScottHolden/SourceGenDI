@@ -98,7 +98,7 @@ namespace {ContainerNamespace}
 		{
 			List<string> types = new List<string>();
 
-			foreach (InvocationExpressionSyntax field in receiver.CandidateFields)
+			foreach (InvocationExpressionSyntax field in receiver.InvocationsToPoke)
 			{
 				SymbolInfo symbolInfo = compilation.GetSemanticModel(field.SyntaxTree).GetSymbolInfo(field);
 

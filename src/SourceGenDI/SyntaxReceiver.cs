@@ -6,12 +6,12 @@ namespace SourceGenDI
 {
 	internal class SyntaxReceiver : ISyntaxReceiver
 	{
-		public List<InvocationExpressionSyntax> CandidateFields { get; } = new List<InvocationExpressionSyntax>();
+		public List<InvocationExpressionSyntax> InvocationsToPoke { get; } = new List<InvocationExpressionSyntax>();
 		public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
 		{
 			if (syntaxNode is InvocationExpressionSyntax invocation)
 			{
-				CandidateFields.Add(invocation);
+				InvocationsToPoke.Add(invocation);
 			}
 		}
 	}
