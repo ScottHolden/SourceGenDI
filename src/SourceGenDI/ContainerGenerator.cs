@@ -64,33 +64,32 @@ namespace SourceGenDI
 
 		private static string BuildResolverFile(List<ContainerService> services)
 		{
-			StringBuilder sb = new StringBuilder($@"
-using System;
-namespace {ContainerNamespace}
-{{
-    public sealed class {ContainerTypeName}
-	{{
-");
-			if(services != null)
-			foreach (ContainerService service in services)
-			{
-				sb.AppendLine($"private static readonly {service.Type} {service.Name} = {service.InitilizerCode};");
-			}
-			sb.AppendLine(@"
-		public static T Resolve<T>() where T : class => (T)(typeof(T) switch  {
-");
+			StringBuilder sb = new StringBuilder();
 
-			if (services != null)
-				foreach (ContainerService service in services)
-				{
+			sb.AppendLine("using System;");
+			sb.AppendLine("using System.Text;");
+			sb.AppendLine($"namespace {ContainerNamespace}");
+			sb.AppendLine("{");
+			sb.AppendLine($"	public sealed class {ContainerTypeName}");
+			sb.AppendLine("		{");
+
+			foreach (ContainerService service in services ?? Enumerable.Empty<ContainerService>())
+			{
+				sb.AppendLine($"	private static readonly {service.Type} {service.Name} = {service.InitilizerCode};");
+			}
+
+			sb.AppendLine("			public static T Resolve<T>() where T : class => (T)(typeof(T) switch {");
+
+			foreach (ContainerService service in services ?? Enumerable.Empty<ContainerService>())
+			{
 				sb.AppendLine($"			Type t when t == typeof({service.Type}) => (object){service.Name},");
 			}
-			sb.AppendLine(@"
-			_ => throw new Exception(""Source generator did not emit this type?!"")
-		});
-	}
-}
-");
+
+			sb.AppendLine(@"			_ => throw new Exception(""Source generator did not emit this type?!"")");
+			sb.AppendLine("			});");
+			sb.AppendLine("		}");
+			sb.AppendLine("}");
+
 			return sb.ToString();
 		}
 
