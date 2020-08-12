@@ -67,7 +67,6 @@ namespace SourceGenDI
 			StringBuilder sb = new StringBuilder();
 
 			sb.AppendLine("using System;");
-			sb.AppendLine("using System.Text;");
 			sb.AppendLine($"namespace {ContainerNamespace}");
 			sb.AppendLine("{");
 			sb.AppendLine($"	public sealed class {ContainerTypeName}");
